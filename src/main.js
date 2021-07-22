@@ -13,11 +13,22 @@ const http = require('http');
 const PORT = 4000;
 
 const server = http.createServer((req, res) => {
+  const POST_REGEXP = /^\/posts\/([a-zA-Z0-9-_]+)$/; // 캡쳐 그룹 기능 활용 [() 괄호 묶음 부분]
+
+  // 검사만 하는 test()와 다르게 exec()는 실행하여 관련 정보를 배열 값으로 가짐
+  const regexpResult = (req.url && POST_REGEXP.exec(req.url)) || undefined;
+
   if (req.url === '/posts' && req.method === 'GET') {
     res.statusCode = 200;
     res.end('List of posts');
-  } else if (req.url && /^\/posts\/[a-zA-Z0-9-_]+$/.test(req.url)) {
-    // req.url에 /posts/(문자 또는 숫자나 '-', '_') 패턴이 존재하는지 검사(test)하여 부합하면 처리됨
+  } else if (regexpResult) {
+    // eslint-disable-next-line no-console
+    console.log(regexpResult);
+    // ex. '/posts/1'인 경우. [ '/posts/1', '1', index: 0, input: '/posts/1', groups: undefined ]
+
+    // eslint-disable-next-line no-console
+    console.log(`post_id : ${regexpResult[1]}`);
+
     res.statusCode = 200;
     res.end('Some contents of post');
   } else if (req.url === '/posts' && req.method === 'POST') {
@@ -30,5 +41,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`The server is listening at port: ${PORT}`);
 });
