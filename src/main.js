@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
   if (req.url === '/posts' && req.method === 'GET') {
     res.statusCode = 200;
     res.end('List of posts');
-  } else if (regexpResult) {
+  } else if (regexpResult && req.method === 'GET') {
     // console.log(regexpResult);
     // ex. '/posts/1'인 경우. [ '/posts/1', '1', index: 0, input: '/posts/1', groups: undefined ]
 
