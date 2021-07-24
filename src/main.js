@@ -12,6 +12,24 @@ const http = require('http');
 
 const PORT = 4000;
 
+// JSDoc 설정(https://jsdoc.app/)
+/**
+ * @typedef Post
+ * @property {string} id
+ * @property {string} title
+ * @property {string} content
+ */
+
+// JSDoc 설정한 Post 사용 샘플 (위 @typedef 설정대로 아래 @type 객체를 사용하지 않으면 경고문 발생)
+/** @type {Post} */
+const examPost = {
+  id: 1,
+  title: 'exam title',
+  // content: 'exam content',
+};
+
+console.log(examPost);
+
 const server = http.createServer((req, res) => {
   const POST_REGEXP = /^\/posts\/([a-zA-Z0-9-_]+)$/; // 캡쳐 그룹 기능 활용 [() 괄호 묶음 부분]
 
@@ -22,8 +40,7 @@ const server = http.createServer((req, res) => {
     res.statusCode = 200;
     res.end('List of posts');
   } else if (regexpResult) {
-    // eslint-disable-next-line no-console
-    console.log(regexpResult);
+    // console.log(regexpResult);
     // ex. '/posts/1'인 경우. [ '/posts/1', '1', index: 0, input: '/posts/1', groups: undefined ]
 
     // eslint-disable-next-line no-console
